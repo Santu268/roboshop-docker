@@ -1,5 +1,9 @@
-FROM python:3
+FROM python:3.9
 RUN mkdir /app
 WORKDIR /app
+COPY payment.ini .
+COPY *.py .
+COPY requirements.txt .
 RUN pip3 install -r requirements.txt
+EXPOSE 8080
 CMD ["uwsgi","--ini","payment.ini"]
