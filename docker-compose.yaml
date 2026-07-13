@@ -1,0 +1,21 @@
+name: roboshop
+services:
+  mongodb:
+    build: ./mongodb
+    image: santu268devops/mongo:v1 # docker build -t santu268devops/mongo:v1
+    container_name: mongo
+  catalogue:
+    build: ./catalogue
+    image: santu268devops/catalogue:v1
+    container_name: catalogue
+    depends_on:
+      - mongodb
+  frontend:
+    build: ./frontend
+    image: santu268devops/frontend:v1
+    container_name: frontend
+    command: echo "I'm running ${COMPOSE_PROJECT_NAME}"
+    ports:
+      - "80:80"
+    depends_on:
+      - catalogue
