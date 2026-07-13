@@ -19,3 +19,78 @@ services:
       - "80:80"
     depends_on:
       - catalogue
+      - user
+      - cart
+      - shipping
+      - payment
+  redis:
+    build: ./redis
+    image: santu268devops/redis:v1
+    container_name: redis
+  user:
+    build: ./user
+    image: santu268devops/user:v1
+    container_name: user
+    Environment: 
+      MONGO: "true"
+      REDIS_URL: 'redis://redis:6379'
+      MONGO_URL: "mongodb://mongodb:27017/users"                 
+    depends_on:
+      - mongodb
+  cart:
+    build: ./cart
+    image: santu268devops/cart:v1
+    container_name: cart
+    environment:
+      REDIS_HOST: redis
+      CATALOGUE_HOST: catalogue
+      CATALOGUE_PORT: 8080                 
+    depends_on:
+      - catalogue
+      - user
+  mysql:
+    build: ./mysql
+    image: santu268devops/mysql:v1
+    container_name: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: RoboShop@1
+    depends_on:
+      - shipping
+  rabbitmq:
+    build: ./rabbitmq
+    image: santu268devops/rabbitmq:v1
+    container_name: rabbitmq
+    environment:
+      RABBITMQ_DEFAULT_USER: "roboshop"
+      MYSQL_ROOT_PASSWORD: "roboshop123"
+    # depends_on:
+    # - payment  
+  shipping:
+    build: ./shipping
+    image: santu268devops/shipping:v1
+    container_name: shipping
+    environment:
+      CART_ENDPOINT: "cart:8080"
+      DB_HOST: mysql
+      CATALOGUE_PORT: "8080"                 
+    depends_on:
+      - cart
+      - catalogue
+      - user
+  payment:
+    build: ./payment
+    image: santu268devops/payment:v1
+    container_name: payment
+    environment:
+      CART_HOST: cart
+      CART_PORT: "8080"
+      USER_HOST: user
+      USER_PORT: "8080"
+      AMQP_HOST: "rabbitmq"
+      AMQP_USER: "roboshop"
+      AMQP_PASS: "roboshop123"                 
+    depends_on:
+      - shipping
+      - user
+
+  
