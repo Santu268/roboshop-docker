@@ -7,7 +7,10 @@ services:
   catalogue:
     build: ./catalogue
     image: santu268devops/catalogue:v1
-    container_name: catalogue
+    container_name: catalogue    
+    environment: 
+      MONGO: "true"
+      MONGO_URL: "mongodb://mongo:27017/catalogue" 
     depends_on:
       - mongodb
   frontend:
