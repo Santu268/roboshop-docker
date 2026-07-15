@@ -65,7 +65,7 @@ services:
     container_name: rabbitmq
     environment:
       RABBITMQ_DEFAULT_USER: "roboshop"
-      MYSQL_ROOT_PASSWORD: "roboshop123" 
+      RABBITMQ_DEFAULT_PASS: "roboshop123" 
   shipping:
     build: ./shipping
     image: santu268devops/shipping:v1
