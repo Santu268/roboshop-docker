@@ -29,8 +29,7 @@ services:
       - shipping
       - payment
   redis:
-    build: redis:7
-    image: santu268devops/redis:v1
+    image: redis:7
     container_name: redis
     volumes:
       - redis:/data
