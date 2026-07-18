@@ -2,13 +2,13 @@ name: roboshop
 services:
   mongodb:
     build: ./mongodb
-    image: santu268devops/mongo:v1 # docker build -t santu268devops/mongo:v1
+    image: santu268devops/mongodb:4.0.0 # docker build -t santu268devops/mongo:4.0.0
     container_name: mongo
     volumes:
       - mongodb:/data/db
   catalogue:
     build: ./catalogue
-    image: santu268devops/catalogue:v1
+    image: santu268devops/catalogue:4.0.0
     container_name: catalogue    
     environment: 
       MONGO: "true"
@@ -17,7 +17,7 @@ services:
       - mongodb
   frontend:
     build: ./frontend
-    image: santu268devops/frontend:v1
+    image: santu268devops/frontend:4.0.0
     container_name: frontend
     # command: echo "I'm running ${COMPOSE_PROJECT_NAME}"
     ports:
@@ -35,7 +35,7 @@ services:
       - redis:/data
   user:
     build: ./user
-    image: santu268devops/user:v1
+    image: santu268devops/user:4.0.0
     container_name: user
     environment: 
       MONGO: "true"
@@ -46,7 +46,7 @@ services:
       - redis
   cart:
     build: ./cart
-    image: santu268devops/cart:v1
+    image: santu268devops/cart:4.0.0
     container_name: cart
     environment:
       REDIS_HOST: redis
@@ -57,7 +57,7 @@ services:
       - redis
   mysql:
     build: ./mysql
-    image: santu268devops/mysql:v1
+    image: santu268devops/mysql:4.0.0
     container_name: mysql    
     command: --mysql-native-password=ON --innodb-lock_wait_timeout=120
     environment:
@@ -66,7 +66,7 @@ services:
       - mysql:/var/lib/mysql
   rabbitmq:
     build: ./rabbitmq
-    image: santu268devops/rabbitmq:v1
+    image: santu268devops/rabbitmq:4.0.0
     container_name: rabbitmq
     environment:
       RABBITMQ_DEFAULT_USER: "roboshop"
@@ -75,7 +75,7 @@ services:
         - rabbitmq:/var/lib/rabbitmq
   shipping:
     build: ./shipping
-    image: santu268devops/shipping:v1
+    image: santu268devops/shipping:4.0.0
     container_name: shipping
     environment:
       CART_ENDPOINT: "cart:8080"
@@ -85,7 +85,7 @@ services:
       - mysql
   payment:
     build: ./payment
-    image: santu268devops/payment:v1
+    image: santu268devops/payment:4.0.0
     container_name: payment
     environment:
       CART_HOST: cart
