@@ -12,7 +12,7 @@ EXPOSE 8080
 WORKDIR /app
 RUN addgroup -S roboshop && adduser -S -G roboshop -h /home/roboshop -s /sbin/nologin roboshop && \ 
     chown -R roboshop:roboshop /app
-COPY --from-builder /app/shipping.jar .
+COPY --from=builder /app/shipping.jar .
 USER roboshop
 CMD ["java","-jar","shipping.jar"]
 # FROM maven:3.9.16
